@@ -5,6 +5,7 @@ Unreleased
 ----------
 
 - Allow ``HistoricalRecords.m2m_fields`` as str
+- History models with additional attributes can be set in batch processes
 
 3.4.0 (2023-08-18)
 ------------------
