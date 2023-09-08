@@ -16,12 +16,14 @@ from simple_history.tests.models import (
     Poll,
     PollWithAlternativeManager,
     PollWithExcludeFields,
+    PollWithHistoricalIPAddress,
     PollWithUniqueQuestion,
     Street,
 )
 from simple_history.utils import (
     bulk_create_with_history,
     bulk_update_with_history,
+    get_history_manager_for_model,
     update_change_reason,
 )
 
@@ -507,6 +509,49 @@ class BulkUpdateWithHistoryAlternativeManagersTestCase(TestCase):
                 fields=["question"],
                 manager=Poll.objects,
             )
+
+    def test_bulk_create_history_with_custom_model_attributes(self):
+        bulk_create_with_history(
+            self.data, PollWithHistoricalIPAddress, custom_ip_address="127.0.0.1"
+        )
+
+        self.assertEqual(PollWithHistoricalIPAddress.objects.count(), 5)
+        self.assertEqual(
+            PollWithHistoricalIPAddress.history.filter(ip_address="127.0.0.1").count(),
+            5,
+        )
+
+    def test_bulk_update_history_with_custom_model_attributes(self):
+        bulk_update_with_history(
+            self.data,
+            PollWithHistoricalIPAddress,
+            fields=["question"],
+            custom_ip_address="192.160.0.1",
+        )
+
+        self.assertTrue(
+            all(
+                [
+                    history.ip_address == "192.160.0.1"
+                    for history in PollWithHistoricalIPAddress.history.filter(
+                        history_type="~"
+                    )
+                ]
+            )
+        )
+
+    def test_bulk_manager_with_custom_model_attributes(self):
+        history_manager = get_history_manager_for_model(PollWithHistoricalIPAddress)
+        history_manager.bulk_history_create(self.data, custom_ip_address="172.16.0.1")
+
+        self.assertTrue(
+            all(
+                [
+                    history.ip_address == "172.16.0.1"
+                    for history in PollWithHistoricalIPAddress.history.all()
+                ]
+            )
+        )
 
 
 class UpdateChangeReasonTestCase(TestCase):

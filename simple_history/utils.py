@@ -65,6 +65,7 @@ def bulk_create_with_history(
     default_user=None,
     default_change_reason=None,
     default_date=None,
+    **kwargs,
 ):
     """
     Bulk create the objects specified by objs while also bulk creating
@@ -106,6 +107,7 @@ def bulk_create_with_history(
                 default_user=default_user,
                 default_change_reason=default_change_reason,
                 default_date=default_date,
+                **kwargs,
             )
     if second_transaction_required:
         with transaction.atomic(savepoint=False):
@@ -143,6 +145,7 @@ def bulk_create_with_history(
                 default_user=default_user,
                 default_change_reason=default_change_reason,
                 default_date=default_date,
+                **kwargs,
             )
         objs_with_id = obj_list
     return objs_with_id
@@ -157,6 +160,7 @@ def bulk_update_with_history(
     default_change_reason=None,
     default_date=None,
     manager=None,
+    **kwargs,
 ):
     """
     Bulk update the objects specified by objs while also bulk creating
@@ -189,6 +193,7 @@ def bulk_update_with_history(
             default_user=default_user,
             default_change_reason=default_change_reason,
             default_date=default_date,
+            **kwargs,
         )
     return rows_updated
 
