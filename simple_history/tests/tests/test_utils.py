@@ -554,7 +554,7 @@ class CustomHistoricalAttrsTest(TestCase):
     def test_bulk_manager_with_custom_model_attributes(self):
         history_manager = get_history_manager_for_model(PollWithHistoricalSessionAttr)
         history_manager.bulk_history_create(
-            [], custom_historical_attrs={"session": "co-op"}
+            self.data, custom_historical_attrs={"session": "co-op"}
         )
 
         self.assertTrue(
