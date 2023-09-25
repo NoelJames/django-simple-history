@@ -16,7 +16,7 @@ from simple_history.tests.models import (
     Poll,
     PollWithAlternativeManager,
     PollWithExcludeFields,
-    PollWithHistoricalIPAddress,
+    PollWithHistoricalSessionAttr,
     PollWithUniqueQuestion,
     Street,
 )
@@ -510,45 +510,66 @@ class BulkUpdateWithHistoryAlternativeManagersTestCase(TestCase):
                 manager=Poll.objects,
             )
 
+
+class CustomHistoricalAttrsTest(TestCase):
+
     def test_bulk_create_history_with_custom_model_attributes(self):
+        data = [
+            PollWithHistoricalSessionAttr(id=x, question='Question ' + str(x))
+            for x in range(5)
+        ]
         bulk_create_with_history(
-            self.data, PollWithHistoricalIPAddress, custom_ip_address="127.0.0.1"
+            data, PollWithHistoricalSessionAttr,
+            custom_historical_attrs={'session': 'jam'}
         )
 
-        self.assertEqual(PollWithHistoricalIPAddress.objects.count(), 5)
+        self.assertEqual(PollWithHistoricalSessionAttr.objects.count(), 5)
         self.assertEqual(
-            PollWithHistoricalIPAddress.history.filter(ip_address="127.0.0.1").count(),
+            PollWithHistoricalSessionAttr.history.filter(session="jam").count(),
             5,
         )
 
     def test_bulk_update_history_with_custom_model_attributes(self):
+        create_data = [
+            PollWithHistoricalSessionAttr(id=x, question='Question ' + str(x))
+            for x in range(5)
+        ]
+
+        bulk_create_with_history(create_data, PollWithHistoricalSessionAttr)
+
+        update_data = [
+            PollWithHistoricalSessionAttr(id=x, question='Q' + str(x))
+            for x in range(5)
+        ]
+
         bulk_update_with_history(
-            self.data,
-            PollWithHistoricalIPAddress,
+            update_data,
+            PollWithHistoricalSessionAttr,
             fields=["question"],
-            custom_ip_address="192.160.0.1",
+            custom_historical_attrs={'session': 'training'}
         )
 
         self.assertTrue(
-            all(
-                [
-                    history.ip_address == "192.160.0.1"
-                    for history in PollWithHistoricalIPAddress.history.filter(
+            all([
+                    history.session == "training"
+                    for history in PollWithHistoricalSessionAttr.history.filter(
                         history_type="~"
                     )
-                ]
-            )
+            ])
         )
 
     def test_bulk_manager_with_custom_model_attributes(self):
-        history_manager = get_history_manager_for_model(PollWithHistoricalIPAddress)
-        history_manager.bulk_history_create(self.data, custom_ip_address="172.16.0.1")
+        history_manager = get_history_manager_for_model(PollWithHistoricalSessionAttr)
+        history_manager.bulk_history_create(
+            [],
+            custom_historical_attrs={'session': 'co-op'}
+        )
 
         self.assertTrue(
             all(
                 [
-                    history.ip_address == "172.16.0.1"
-                    for history in PollWithHistoricalIPAddress.history.all()
+                    history.session == "co-op"
+                    for history in PollWithHistoricalSessionAttr.history.all()
                 ]
             )
         )
