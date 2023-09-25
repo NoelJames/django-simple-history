@@ -514,13 +514,16 @@ class BulkUpdateWithHistoryAlternativeManagersTestCase(TestCase):
 
 class CustomHistoricalAttrsTest(TestCase):
 
-    def test_bulk_create_history_with_custom_model_attributes(self):
-        data = [
+    def setUp(self):
+        self.data = [
             PollWithHistoricalSessionAttr(id=x, question='Question ' + str(x))
             for x in range(5)
         ]
+
+    def test_bulk_create_history_with_custom_model_attributes(self):
+
         bulk_create_with_history(
-            data, PollWithHistoricalSessionAttr,
+            self.data, PollWithHistoricalSessionAttr,
             custom_historical_attrs={'session': 'jam'}
         )
 
@@ -531,13 +534,6 @@ class CustomHistoricalAttrsTest(TestCase):
         )
 
     def test_bulk_update_history_with_custom_model_attributes(self):
-        create_data = [
-            PollWithHistoricalSessionAttr(id=x, question='Question ' + str(x))
-            for x in range(5)
-        ]
-
-        bulk_create_with_history(create_data, PollWithHistoricalSessionAttr)
-
         update_data = [
             PollWithHistoricalSessionAttr(id=x, question='Q' + str(x))
             for x in range(5)
