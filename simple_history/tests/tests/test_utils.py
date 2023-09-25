@@ -533,6 +533,11 @@ class CustomHistoricalAttrsTest(TestCase):
         )
 
     def test_bulk_update_history_with_custom_model_attributes(self):
+        bulk_create_with_history(
+            self.data,
+            PollWithHistoricalSessionAttr,
+            custom_historical_attrs={"session": None},
+        )
         bulk_update_with_history(
             self.data,
             PollWithHistoricalSessionAttr,
