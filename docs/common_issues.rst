@@ -122,7 +122,7 @@ A field ``session`` would be passed as ``custom_historical_attrs={'session': 'ja
             data, PollWithHistoricalSessionAttr,
             custom_historical_attrs={'session': 'jam'}
         )
-    >>> data[0].history.get().session
+    >>> data[0].history.latest().session
     'jam'
 
 QuerySet Updates with History (Updated in Django 2.2)
