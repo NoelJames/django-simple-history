@@ -141,7 +141,6 @@ class PollWithHistoricalSessionAttr(models.Model):
         return reverse("poll-detail", kwargs={"pk": self.pk})
 
 
-
 class PollWithManyToMany(models.Model):
     question = models.CharField(max_length=200)
     pub_date = models.DateTimeField("date published")
