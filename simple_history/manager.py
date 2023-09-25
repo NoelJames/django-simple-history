@@ -263,12 +263,8 @@ class HistoryManager(models.Manager):
                     field.attname: getattr(instance, field.attname)
                     for field in self.model.tracked_fields
                 },
+                **(custom_historical_attrs or {}),
             )
-
-            if custom_historical_attrs:
-                for name in custom_historical_attrs:
-                    setattr(row, name, custom_historical_attrs[name])
-
             if hasattr(self.model, "history_relation"):
                 row.history_relation_id = instance.pk
             historical_instances.append(row)
