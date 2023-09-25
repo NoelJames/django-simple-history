@@ -56,20 +56,24 @@ You can also specify a default user or default change reason responsible for the
     True
 
 If your using `additional fields in historical models`_ and have one value to batch create
-into the history. Pass the name of the field attribute prefixed with ``custom_``. A field
-``ip_address`` would be passed as `custom_ip_address`.
+into the history. Pass the optional dict ``custom_historical_attrs`` with the key and value.
+A field ``session`` would be passed as ``custom_historical_attrs={'session': '127.0.0.1'}``.
 
-.. _additional fields in historical models: /historical_model.html#adding-additional-fields-to-historical-models
+.. _additional fields in historical models: historical_model.html#adding-additional-fields-to-historical-models
 
 .. code-block:: pycon
 
-    >>> from simple_history.tests.models import PollWithHistoricalIPAddress
-    >>> data = [PollWithHistoricalIPAddress(id=x, question='Question ' + str(x), pub_date=now()) for x in range(10)]
-    >>> objs = bulk_create_with_history(data, PollWithHistoricalIPAddress, custom_ip_address='127.0.0.1')
-    >>> PollWithHistoricalIPAddress.history.get(id=data[0].id).ip_address == '127.0.0.1'
-    True
-
-
+    >>> from simple_history.tests.models import PollWithHistoricalSessionAttr
+    >>> data = [
+        PollWithHistoricalSessionAttr(id=x, question='Question ' + str(x))
+        for x in range(10)
+    ]
+    >>> objs = bulk_create_with_history(
+            data, PollWithHistoricalSessionAttr,
+            custom_historical_attrs={'session': 'training'}
+        )
+    >>> data[0].history.get().session
+    'training'
 
 Bulk Updating a Model with History (New)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -105,14 +109,20 @@ default manager returns a filtered set), you can specify which manager to use wi
     >>> objs = bulk_create_with_history(data, PollWithAlternativeManager, batch_size=500, manager=PollWithAlternativeManager.all_polls)
 
 If your using `additional fields in historical models`_ and have one value to batch update
-into the history. Pass the name of the field attribute prefixed with ``custom_``. A field
-``ip_address`` would be passed as `custom_ip_address`.
+into the history. Pass the a optional dict ``custom_historical_attrs`` with the key and value.
+A field ``ip_address`` would be passed as
+`custom_historical_attrs={'ip_address': '127.0.0.1'}`.
 
-.. _additional fields in historical models: /historical_model.html#adding-additional-fields-to-historical-models
+.. _additional fields in historical models: historical_model.html#adding-additional-fields-to-historical-models
 
 .. code-block:: pycon
 
-    >>> bulk_update_with_history(data, PollWithHistoricalIPAddress, custom_ip_address='10.0.0.1')
+    >>> bulk_update_with_history(
+            data, PollWithHistoricalSessionAttr,
+            custom_historical_attrs={'session': 'jam'}
+        )
+    >>> data[0].history.get().session
+    'jam'
 
 QuerySet Updates with History (Updated in Django 2.2)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

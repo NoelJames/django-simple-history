@@ -230,7 +230,7 @@ class HistoryManager(models.Manager):
         default_user=None,
         default_change_reason="",
         default_date=None,
-        **kwargs,
+        custom_historical_attrs=None,
     ):
         """
         Bulk create the history for the objects specified by objs.
@@ -265,13 +265,9 @@ class HistoryManager(models.Manager):
                 },
             )
 
-            custom = {
-                key.replace("custom_", ""): kwargs[key]
-                for key in kwargs
-                if key.startswith("custom_")
-            }
-            for name in custom:
-                setattr(row, name, custom[name])
+            if custom_historical_attrs:
+                for name in custom_historical_attrs:
+                    setattr(row, name, custom_historical_attrs[name])
 
             if hasattr(self.model, "history_relation"):
                 row.history_relation_id = instance.pk
