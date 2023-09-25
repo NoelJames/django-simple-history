@@ -290,7 +290,7 @@ class BulkCreateWithHistoryTransactionTestCase(TransactionTestCase):
             default_user=None,
             default_change_reason=None,
             default_date=None,
-            custom_historical_attrs=None
+            custom_historical_attrs=None,
         )
 
 
@@ -513,7 +513,6 @@ class BulkUpdateWithHistoryAlternativeManagersTestCase(TestCase):
 
 
 class CustomHistoricalAttrsTest(TestCase):
-
     def setUp(self):
         self.data = [
             PollWithHistoricalSessionAttr(id=x, question="Question " + str(x))
@@ -521,10 +520,10 @@ class CustomHistoricalAttrsTest(TestCase):
         ]
 
     def test_bulk_create_history_with_custom_model_attributes(self):
-
         bulk_create_with_history(
-            self.data, PollWithHistoricalSessionAttr,
-            custom_historical_attrs={"session": "jam"}
+            self.data,
+            PollWithHistoricalSessionAttr,
+            custom_historical_attrs={"session": "jam"},
         )
 
         self.assertEqual(PollWithHistoricalSessionAttr.objects.count(), 5)
@@ -535,31 +534,31 @@ class CustomHistoricalAttrsTest(TestCase):
 
     def test_bulk_update_history_with_custom_model_attributes(self):
         update_data = [
-            PollWithHistoricalSessionAttr(id=x, question="Q" + str(x))
-            for x in range(5)
+            PollWithHistoricalSessionAttr(id=x, question="Q" + str(x)) for x in range(5)
         ]
 
         bulk_update_with_history(
             update_data,
             PollWithHistoricalSessionAttr,
             fields=["question"],
-            custom_historical_attrs={"session": "training"}
+            custom_historical_attrs={"session": "training"},
         )
 
         self.assertTrue(
-            all([
+            all(
+                [
                     history.session == "training"
                     for history in PollWithHistoricalSessionAttr.history.filter(
                         history_type="~"
                     )
-            ])
+                ]
+            )
         )
 
     def test_bulk_manager_with_custom_model_attributes(self):
         history_manager = get_history_manager_for_model(PollWithHistoricalSessionAttr)
         history_manager.bulk_history_create(
-            [],
-            custom_historical_attrs={"session": "co-op"}
+            [], custom_historical_attrs={"session": "co-op"}
         )
 
         self.assertTrue(
