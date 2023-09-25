@@ -516,7 +516,7 @@ class CustomHistoricalAttrsTest(TestCase):
     def setUp(self):
         self.data = [
             PollWithHistoricalSessionAttr(id=x, question="Question " + str(x))
-            for x in range(5)
+            for x in range(1, 6)
         ]
 
     def test_bulk_create_history_with_custom_model_attributes(self):
