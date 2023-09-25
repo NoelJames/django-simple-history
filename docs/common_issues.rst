@@ -70,10 +70,10 @@ A field ``session`` would be passed as ``custom_historical_attrs={'session': '12
     ]
     >>> objs = bulk_create_with_history(
             data, PollWithHistoricalSessionAttr,
-            custom_historical_attrs={'session': '127.0.0.1'}
+            custom_historical_attrs={'session': 'training'}
         )
     >>> data[0].history.get().session
-    '127.0.0.1'
+    'training'
 
 Bulk Updating a Model with History (New)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -119,10 +119,10 @@ A field ``ip_address`` would be passed as
 
     >>> bulk_update_with_history(
             data, PollWithHistoricalSessionAttr,
-            custom_historical_attrs={'session': '127.0.0.1'}
+            custom_historical_attrs={'session': 'jam'}
         )
     >>> data[0].history.get().session
-    '127.0.0.1'
+    'jam'
 
 QuerySet Updates with History (Updated in Django 2.2)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
