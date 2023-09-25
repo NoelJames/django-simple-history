@@ -108,10 +108,10 @@ default manager returns a filtered set), you can specify which manager to use wi
     >>> data = [PollWithAlternativeManager(id=x, question='Question ' + str(x), pub_date=now()) for x in range(1000)]
     >>> objs = bulk_create_with_history(data, PollWithAlternativeManager, batch_size=500, manager=PollWithAlternativeManager.all_polls)
 
-If your using `additional fields in historical models`_ and have one value to batch update
-into the history. Pass the a optional dict ``custom_historical_attrs`` with the key and value.
-A field ``ip_address`` would be passed as
-`custom_historical_attrs={'ip_address': '127.0.0.1'}`.
+If you're using `additional fields in historical models`_ and have custom fields to
+batch-update into the history, pass the optional dict argument ``custom_historical_attrs``
+containing the field names and values.
+A field ``session`` would be passed as ``custom_historical_attrs={'session': 'jam'}``.
 
 .. _additional fields in historical models: historical_model.html#adding-additional-fields-to-historical-models
 
