@@ -4,10 +4,11 @@ Changes
 Unreleased
 ----------
 
-- Allow ``HistoricalRecords.m2m_fields`` as str
-- Added ``custom_historical_attrs`` to ``bulk_create_with_history()`` and
-  ``bulk_update_with_history()`` for setting additional fields on custom history models
-  (gh-1248)
+- Allow ``HistoricalRecords.m2m_fields`` as str (gh-1243)
+- Fixed ``HistoryRequestMiddleware`` deleting non-existent
+``HistoricalRecords.context.request`` in very specific circumstances (gh-1256)
+- Fixed ``HistoryRequestMiddleware`` deleting non-existent
+  ``HistoricalRecords.context.request`` in very specific circumstances (gh-1256)
 
 3.4.0 (2023-08-18)
 ------------------
