@@ -533,12 +533,8 @@ class CustomHistoricalAttrsTest(TestCase):
         )
 
     def test_bulk_update_history_with_custom_model_attributes(self):
-        update_data = [
-            PollWithHistoricalSessionAttr(id=x, question="Q" + str(x)) for x in range(5)
-        ]
-
         bulk_update_with_history(
-            update_data,
+            self.data,
             PollWithHistoricalSessionAttr,
             fields=["question"],
             custom_historical_attrs={"session": "training"},
