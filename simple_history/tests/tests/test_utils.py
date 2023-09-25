@@ -515,7 +515,7 @@ class BulkUpdateWithHistoryAlternativeManagersTestCase(TestCase):
 class CustomHistoricalAttrsTest(TestCase):
     def setUp(self):
         self.data = [
-            PollWithHistoricalSessionAttr(id=x, question="Question " + str(x))
+            PollWithHistoricalSessionAttr(id=x, question=f"Question {x}")
             for x in range(1, 6)
         ]
 
