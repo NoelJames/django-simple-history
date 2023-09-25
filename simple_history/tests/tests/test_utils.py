@@ -545,15 +545,10 @@ class CustomHistoricalAttrsTest(TestCase):
             custom_historical_attrs={"session": "training"},
         )
 
-        self.assertTrue(
-            all(
-                [
-                    history.session == "training"
-                    for history in PollWithHistoricalSessionAttr.history.filter(
-                        history_type="~"
-                    )
-                ]
-            )
+        self.assertEqual(PollWithHistoricalSessionAttr.objects.count(), 5)
+        self.assertEqual(
+            PollWithHistoricalSessionAttr.history.filter(session="training").count(),
+            5,
         )
 
     def test_bulk_manager_with_custom_model_attributes(self):
