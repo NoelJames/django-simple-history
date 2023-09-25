@@ -82,6 +82,8 @@ def bulk_create_with_history(
         in each historical record
     :param default_date: Optional date to specify as the history_date in each historical
         record
+    :param custom_historical_attrs: Optional dict of field `name`:`value` to specify
+        values for custom fields
     :return: List of objs with IDs
     """
     # Exclude ManyToManyFields because they end up as invalid kwargs to
@@ -177,6 +179,8 @@ def bulk_update_with_history(
         record
     :param manager: Optional model manager to use for the model instead of the default
         manager
+    :param custom_historical_attrs: Optional dict of field `name`:`value` to specify
+        values for custom fields
     :return: The number of model rows updated, not including any history objects
     """
     history_manager = get_history_manager_for_model(model)
