@@ -55,9 +55,10 @@ You can also specify a default user or default change reason responsible for the
     >>> Poll.history.get(id=data[0].id).history_user == user
     True
 
-If your using `additional fields in historical models`_ and have one value to batch create
-into the history. Pass the optional dict ``custom_historical_attrs`` with the key and value.
-A field ``session`` would be passed as ``custom_historical_attrs={'session': '127.0.0.1'}``.
+If you're using `additional fields in historical models`_ and have custom fields to
+batch-create into the history, pass the optional dict argument ``custom_historical_attrs``
+containing the field names and values.
+A field ``session`` would be passed as ``custom_historical_attrs={'session': 'training'}``.
 
 .. _additional fields in historical models: historical_model.html#adding-additional-fields-to-historical-models
 
