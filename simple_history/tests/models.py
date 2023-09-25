@@ -126,7 +126,7 @@ class PollWithHistoricalIPAddress(models.Model):
 
 
 class SessionsHistoricalModel(models.Model):
-    session = models.CharField(null=True, max_length=200)
+    session = models.CharField(max_length=200, null=True, default=None)
 
     class Meta:
         abstract = True
@@ -134,12 +134,7 @@ class SessionsHistoricalModel(models.Model):
 
 class PollWithHistoricalSessionAttr(models.Model):
     question = models.CharField(max_length=200)
-
     history = HistoricalRecords(bases=[SessionsHistoricalModel])
-
-    def get_absolute_url(self):
-        return reverse("poll-detail", kwargs={"pk": self.pk})
-
 
 
 class PollWithManyToMany(models.Model):
