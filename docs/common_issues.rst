@@ -66,7 +66,7 @@ A field ``session`` would be passed as ``custom_historical_attrs={'session': 'tr
 
     >>> from simple_history.tests.models import PollWithHistoricalSessionAttr
     >>> data = [
-        PollWithHistoricalSessionAttr(id=x, question='Question ' + str(x))
+        PollWithHistoricalSessionAttr(id=x, question=f'Question {x}')
         for x in range(10)
     ]
     >>> objs = bulk_create_with_history(
