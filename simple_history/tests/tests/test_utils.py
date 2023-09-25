@@ -290,6 +290,7 @@ class BulkCreateWithHistoryTransactionTestCase(TransactionTestCase):
             default_user=None,
             default_change_reason=None,
             default_date=None,
+            custom_historical_attrs=None
         )
 
 
