@@ -557,13 +557,10 @@ class CustomHistoricalAttrsTest(TestCase):
             self.data, custom_historical_attrs={"session": "co-op"}
         )
 
-        self.assertTrue(
-            all(
-                [
-                    history.session == "co-op"
-                    for history in PollWithHistoricalSessionAttr.history.all()
-                ]
-            )
+        self.assertEqual(PollWithHistoricalSessionAttr.objects.count(), 0)
+        self.assertEqual(
+            PollWithHistoricalSessionAttr.history.filter(session="co-op").count(),
+            5,
         )
 
 
