@@ -516,7 +516,7 @@ class CustomHistoricalAttrsTest(TestCase):
 
     def setUp(self):
         self.data = [
-            PollWithHistoricalSessionAttr(id=x, question='Question ' + str(x))
+            PollWithHistoricalSessionAttr(id=x, question="Question " + str(x))
             for x in range(5)
         ]
 
@@ -524,7 +524,7 @@ class CustomHistoricalAttrsTest(TestCase):
 
         bulk_create_with_history(
             self.data, PollWithHistoricalSessionAttr,
-            custom_historical_attrs={'session': 'jam'}
+            custom_historical_attrs={"session": "jam"}
         )
 
         self.assertEqual(PollWithHistoricalSessionAttr.objects.count(), 5)
@@ -535,7 +535,7 @@ class CustomHistoricalAttrsTest(TestCase):
 
     def test_bulk_update_history_with_custom_model_attributes(self):
         update_data = [
-            PollWithHistoricalSessionAttr(id=x, question='Q' + str(x))
+            PollWithHistoricalSessionAttr(id=x, question="Q" + str(x))
             for x in range(5)
         ]
 
@@ -543,7 +543,7 @@ class CustomHistoricalAttrsTest(TestCase):
             update_data,
             PollWithHistoricalSessionAttr,
             fields=["question"],
-            custom_historical_attrs={'session': 'training'}
+            custom_historical_attrs={"session": "training"}
         )
 
         self.assertTrue(
@@ -559,7 +559,7 @@ class CustomHistoricalAttrsTest(TestCase):
         history_manager = get_history_manager_for_model(PollWithHistoricalSessionAttr)
         history_manager.bulk_history_create(
             [],
-            custom_historical_attrs={'session': 'co-op'}
+            custom_historical_attrs={"session": "co-op"}
         )
 
         self.assertTrue(
